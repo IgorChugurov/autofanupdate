@@ -1,0 +1,158 @@
+<style>
+    .modal-dialog {
+        width: 90%;
+    }
+    a {
+        color: blue;
+    }
+    .green{
+        color:green
+    }
+</style>
+<div class="create-news select-modal">
+    <div class="modal-header">
+        <h4 class="modal-title text-center">Поступление делатей со склада на сервис</h4>
+        <a class="cancel" ng-click="$ctrl.cancel()"></a>
+        <p> Создание накладной отпуска материалов со склада в сервис. Снимете галочки с тех деталей которые не будут присутствовать в накладной. Сделайте выбор детали со склада.
+        Нажмите кнопку создать. После поступления деталей со склада на сервис, эту деталь не возможно удалить или отредактировать в наряд-заказе.</p>
+    </div>
+    <form ng-submit="$ctrl.ok()">
+        <div class="modal-body">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
+                    название
+                    <input type="checkbox" ng-model="$ctrl.allChecked" ng-change="$ctrl.changeChecked()">
+                </div>
+                <div class="col-lg-1 col-md-1 col-sm-6 col-xs-12">
+                    основной код
+                </div>
+                <div class="col-lg-1 col-md-1 col-sm-6 col-xs-12">
+                    фактический
+                </div>
+                <div class="col-lg-1 col-md-1 col-sm-6 col-xs-12">
+                    произ-тель
+                </div>
+                <div class="col-lg-1 col-md-1 col-sm-6 col-xs-12">
+                    поставщик
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                        <small>кол</small>
+                    </div>
+                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                        <small>вход</small>/
+                        <small>вых</small>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                        <small>дох</small>
+                    </div>
+                </div>
+               <!-- <div class="col-lg-1 col-md-1 col-sm-6 col-xs-12">
+                    доход
+                </div>-->
+                <div class="col-lg-1 col-md-1 col-sm-6 col-xs-12">
+                    результат
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
+                    действие
+                </div>
+            </div>
+
+
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-repeat="spark in $ctrl.item.sparks">
+                <hr>
+                <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
+                    <!--<input type="text"  class="form-control" ng-model="spark.name" />-->
+                    <input type="checkbox" ng-model="spark.inRn" ng-disabled="spark.rn">
+                    <span ng-bind="spark.name"></span>
+                </div>
+                <div class="col-lg-1 col-md-1 col-sm-6 col-xs-12">
+                    <small ng-bind="spark.code"></small>
+                </div>
+                <div class="col-lg-1 col-md-1 col-sm-6 col-xs-12">
+                    <small ng-bind="spark.sku"></small>
+                </div>
+                <div class="col-lg-1 col-md-1 col-sm-6 col-xs-12">
+                    <small ng-bind="spark.producer"></small>
+                </div>
+                <div class="col-lg-1 col-md-1 col-sm-6 col-xs-12">
+                    <small ng-bind="spark.supplier"></small>
+                </div>
+                <!--<div class="col-lg-1 col-md-1 col-sm-6 col-xs-12">
+                    <small ng-bind="spark.q"></small>
+                </div>-->
+                <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                        <small ng-bind="spark.q"></small>
+                    </div>
+                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                        <small ng-bind="(spark.incomePrice).toFixed(2)"></small><br>
+                        <small>
+                            <input style="max-width: 70px" ng-model="spark.price" ng-change="$ctrl.changePrice(spark)" type="number" step="0.01">
+                        </small>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                        <small ng-bind="(spark.revenue).toFixed(2)"></small>
+                        <br>
+                        <small ng-class="spark.percentClass" ng-bind="spark.percent"></small>%
+                    </div>
+                </div>
+                <div class="col-lg-1 col-md-1 col-sm-6 col-xs-12">
+                    <small ng-class="{green:spark.isInWarehouse}" ng-bind="spark.result"></small>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <ui-select
+                            ng-show="spark.materials && spark.materials.length"
+                            ng-model="spark.newMaterial"
+                            theme="select2"
+                            sortable="true"
+                            search="true"
+                            ng-change="$ctrl.changeMaterial($index,spark.newMaterial)"
+                            style="width: 90%;" title="выберите материал">
+                        <ui-select-match placeholder="выберите материал">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="d in spark.materials| filter: $select.search" ui-disable-choice="d.disabled">
+                            {{d.name}} {{d.producer}} {{d.supplier}} кол. {{d.qty}} цена {{d.price}} {{d.currency}} фак - {{d.sku}} основ - {{d.code}}
+                        </ui-select-choices>
+                    </ui-select>
+                    <a ng-if="spark.create " href="{{$ctrl.getHref(spark)}}" target="_blank">
+                        создать
+                    </a>
+                    <a ng-if="spark.create || spark.notInStock"  ng-click="$ctrl.reCheckMaterial($index)">
+                        <span class="glyphicon glyphicon-refresh"></span>
+                    </a>
+
+                    <a ng-click="$ctrl.deleteRn(spark.rn)" ng-show="spark.rn">удалить накладную</a>
+                    <a href="http://www.autofan.kharkov.ua/bookkeep/rns/{{spark.rn}}" ng-show="spark.rn" target="_blank">посмотреть</a>
+
+                </div>
+            </div>
+
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <hr>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                   итого по накладным
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                    закупка -
+                    <span ng-bind="($ctrl.itogo.incomeSum).toFixed(2)"></span>
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                    продажа -
+                    <span ng-bind="($ctrl.itogo.sum).toFixed(2)"></span>
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                    разница -
+                    <span ng-bind="($ctrl.itogo.revenue).toFixed(2)"></span>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="modal-footer">
+            <button class="btn btn-block btn-raised" type="submit"   ng-if="$ctrl.checkOk()">
+                создать накладую со склада на сто
+            </button>
+
+        </div>
+    </form>
+    <div class="clearfix"></div>
+</div>

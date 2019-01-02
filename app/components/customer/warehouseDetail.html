@@ -1,0 +1,92 @@
+<style>
+    .modal-dialog {
+        width: 90%;
+    }
+    a {
+        color: #4e945c;
+    }
+    .green{
+        color:green
+    }
+</style>
+<div class="create-news select-modal">
+    <div class="modal-header">
+        Склад в {{$ctrl.currency}}
+    </div>
+    <div class="modal-body">
+        <div class="header-table">
+            <div class="td-list-header col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                название
+            </div>
+            <div class="td-list-header col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                основной артикул
+            </div>
+            <div class="td-list-header col-lg-1 col-md-1 col-sm-1 col-xs-12">
+               на начало
+            </div>
+            <div class="td-list-header col-lg-1 col-md-1 col-sm-1 col-xs-12">
+               на конец
+            </div>
+            <div class="td-list-header col-lg-1 col-md-1 col-sm-1 col-xs-12">
+                прирост
+            </div>
+            <div class="td-list-header col-lg-1 col-md-1 col-sm-1 col-xs-12">
+                уменьшени
+            </div>
+            <div class="clearfix"></div>
+        </div>
+
+        <div class="stuff-admin" ng-repeat="m in $ctrl.materials">
+            <div class=" td-list col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                <span ng-bind="m.name"></span>
+            </div>
+            <div class="td-list col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                <span ng-bind="m.sku"></span>
+            </div>
+            <div class="td-list-header col-lg-1 col-md-1 col-sm-1 col-xs-12">
+                <span ng-bind="m.start"></span>
+            </div>
+            <div class="td-list-header col-lg-1 col-md-1 col-sm-1 col-xs-12">
+                <span ng-bind="m.end"></span>
+            </div>
+            <div class="td-list-header col-lg-1 col-md-1 col-sm-1 col-xs-12">
+                <span ng-bind="m.deltaPlus"></span>
+            </div>
+            <div class="td-list-header col-lg-1 col-md-1 col-sm-1 col-xs-12">
+                <span ng-bind="m.deltaMinus"></span>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        <div class="stuff-admin">
+            <div >
+                <div class="td-list col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    итого
+                </div>
+                <div class="td-list col-lg-4 col-md-4 col-sm-4 col-xs-12">
+
+                </div>
+                <div class="td-list col-lg-1 col-md-1 col-sm-1 col-xs-12">
+                    <span ng-bind="($ctrl.start).toFixed(2)"></span>
+                </div>
+                <div class="td-list col-lg-1 col-md-1 col-sm-1 col-xs-12">
+                    <span ng-bind="($ctrl.end).toFixed(2)"></span>
+                </div>
+                <div class="td-list col-lg-1 col-md-1 col-sm-1 col-xs-12">
+                    <span ng-bind="($ctrl.deltaPlus).toFixed(2)"></span>
+                </div>
+                <div class="td-list col-lg-1 col-md-1 col-sm-1 col-xs-12">
+                    <span ng-bind="($ctrl.deltaMinus).toFixed(2)"></span>
+                </div>
+
+                <div class="clearfix"></div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+
+    <div class="modal-footer">
+
+
+    </div>
+    <div class="clearfix"></div>
+</div>

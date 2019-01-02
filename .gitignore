@@ -1,0 +1,20 @@
+#
+# .gitignore
+#
+
+
+.idea
+*.log
+.git
+dump*
+root
+stores
+uploads
+node_modules/
+app/images/
+app/bower_components/
+app/assets/
+app/font-awesome
+app/fonts
+app/img
+*.tar
